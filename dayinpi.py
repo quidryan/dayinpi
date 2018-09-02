@@ -1,5 +1,5 @@
+#!/usr/bin/env python3
 import calendar
-import collections
 
 cal = calendar.Calendar()
 
@@ -11,8 +11,6 @@ def todigits(i):
 def daysinmonth(year, month):
     return [(todigits(month) + todigits(x)) for x in cal.itermonthdays(year, month) if x != 0]
 
-# for date in daysinmonth(2018, 5):
-#     print(date)
 
 def digitsofpi(filename):
     output = []
@@ -22,38 +20,23 @@ def digitsofpi(filename):
                 output.append(int(ch))
     return output
 
+
 def digitsinyear(year):
     return [daysinmonth(year, month) for month in range(1, 13)]
 
 
-daydigits = []
-dayanswers = collections.OrderedDict()
+daydigits = set()
 for dates in digitsinyear(2018):
     for day in dates:
-        dayanswers[tuple(day)] = False
-        daydigits.extend(dates)
+        daydigits.add( tuple(day) )
 
-dayindexes = [0] * len(dayanswers.keys())
+alldays = daydigits.copy()
 
 pi = digitsofpi(r'100000.txt')
-for idx in range(len(pi)):
-    for date in dayanswers.keys():
-        numdigits = len(date)
-        sliceofpi = pi[idx:idx+numdigits]
-        if tuple(sliceofpi) == date:
-            dayanswers[date] = True
-        # print("Comparing ", tuple(sliceofpi), " and ", date)
+idx = 0
+while idx < len(pi) and len(daydigits) > 0:
+    daydigits = [date for date in daydigits if tuple(pi[idx:idx+len(date)]) != date]
+    idx += 1
 
-# print(dayanswers)
-found = 0
-notfound = 0
-for dateTuple in dayanswers.keys():
-    answer = dayanswers[dateTuple]
-    if answer:
-        found += 1
-    else:
-        notfound += 1
-
-print("Found ", found)
-print("Not Found ", notfound)
-print("Total ", found+notfound)
+print("Not Found ", len(daydigits))
+print("Total ", len(alldays), " in  ", idx)
