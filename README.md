@@ -3,9 +3,8 @@
 ## Run 
 
 ```
-git:(master) ✗ time ./dayinpi.py
-Found  347
+git:(master) time ./dayinpi.py
 Not Found  0
-Total  347
-./dayinpi.py  16.19s user 0.02s system 99% cpu 16.212 total
+Total  347  in   50288
+./dayinpi.py  0.38s user 0.01s system 96% cpu 0.402 total
 ```
